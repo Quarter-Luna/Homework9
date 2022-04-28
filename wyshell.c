@@ -224,5 +224,6 @@ int main()
     word_free(current);
     tmp = current;
     com_free(tmp);
+    amp = 0;
   }
 }
