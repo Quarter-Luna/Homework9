@@ -133,6 +133,7 @@ int main()
           eol = 1;
           break;
         }
+        // I know this is redundant but it helps my brain
         else
         {
           amOut = 1;
@@ -145,6 +146,7 @@ int main()
           eol = 1;
           break;
         }
+        // see line 136
         else
         {
           amIn = 1;
@@ -158,10 +160,10 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
-        }
-        if(amp == 1)
+          if(amp == 1)
         {
           return 0;
+        }
         }
         flag = 1;
         break;
@@ -173,10 +175,10 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
-        }
-        if(amp == 1)
+          if(amp == 1)
         {
           return 0;
+        }
         }
         flag = 1;
         break;
@@ -191,15 +193,15 @@ int main()
       default:
         break;
       }
+      if(amp != 1)
+      {
+        wait(NULL);
+      }
       rtn = parse_line(NULL);
       if (eol == 1)
       {
         break;
       }
-    }
-    if (amp != 1)
-    {
-      wait(NULL);
     }
     if(flag == 0)
     {
