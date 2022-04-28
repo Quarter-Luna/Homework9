@@ -216,12 +216,12 @@ int main()
           }
       }
     }
-    printf("\n");
     current = Head;
     Node *tmp;
     com_free(current);
     word_free(current);
     tmp = current;
     com_free(tmp);
+    printf("\n");
   }
 }
