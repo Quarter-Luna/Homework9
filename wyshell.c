@@ -153,32 +153,34 @@ int main()
           break;
         }
       case PIPE:
-        if(fork() == 0)
+        if (fork() == 0)
         {
           int stat_code = execvp(current->command, args);
-          if(stat_code == -1)
+          if (stat_code == -1)
           {
             printf("Terminated Incorrectly\n");
           }
-          if(amp == 1)
-        {
-          return 0;
-        }
+          if (amp == 1)
+          {
+            return 0;
+          }
+          printf("\n");
         }
         flag = 1;
         break;
       case SEMICOLON:
-        if(fork() == 0)
+        if (fork() == 0)
         {
           int stat_code = execvp(current->command, args);
-          if(stat_code == -1)
+          if (stat_code == -1)
           {
             printf("Terminated Incorrectly\n");
           }
-          if(amp == 1)
-        {
-          return 0;
-        }
+          if (amp == 1)
+          {
+            return 0;
+          }
+          printf("\n");
         }
         flag = 1;
         break;
@@ -193,7 +195,7 @@ int main()
       default:
         break;
       }
-      if(amp != 1)
+      if (amp != 1)
       {
         wait(NULL);
       }
@@ -203,19 +205,20 @@ int main()
         break;
       }
     }
-    if(flag == 0)
+    if (flag == 0)
     {
       if (fork() == 0)
       {
         int stat_code = execvp(current->command, args);
-          if(stat_code == -1)
-          {
-            printf("Terminated Incorrectly\n");
-          }
-          if(amp != 1)
-          {
-            return 0;
-          }
+        if (stat_code == -1)
+        {
+          printf("Terminated Incorrectly\n");
+        }
+        if (amp != 1)
+        {
+          return 0;
+        }
+        printf("\n");
       }
     }
     current = Head;
