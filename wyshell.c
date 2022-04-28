@@ -216,6 +216,7 @@ int main()
           }
       }
     }
+    printf("\n");
     current = Head;
     Node *tmp;
     com_free(current);
