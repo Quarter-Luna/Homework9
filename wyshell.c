@@ -82,7 +82,7 @@ int main()
     int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 1;
     char *args[100] = {lexeme, NULL};
     int itt = 1;
-
+    printf("\n");
     printf("$> ");
     // reads in from standard in
     prtn = fgets(buff, 4096, stdin);
@@ -222,6 +222,5 @@ int main()
     word_free(current);
     tmp = current;
     com_free(tmp);
-    printf("\n");
   }
 }
