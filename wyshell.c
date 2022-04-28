@@ -106,9 +106,9 @@ int main()
           // printf("head created");
         }
 
-        if (current->command == NULL || flag == 0)
+        if (current->command == NULL || flag == 1)
         {
-          flag = 1;
+          flag = 0;
           current->command = strdup(lexeme);
           // printf(":--: %s\n", lexeme);
         }
@@ -159,7 +159,11 @@ int main()
             printf("Terminated Incorrectly\n");
           }
         }
-        flag = 0;
+        if(amp == 1)
+        {
+          wait(NULL);
+        }
+        flag = 1;
         break;
       case SEMICOLON:
         if(fork() == 0)
@@ -170,6 +174,11 @@ int main()
             printf("Terminated Incorrectly\n");
           }
         }
+        if(amp == 1)
+        {
+          wait(NULL);
+        }
+        flag = 1;
         break;
       case ERROR_CHAR:
         break;
@@ -192,7 +201,7 @@ int main()
     {
       break;
     }
-    if(flag == 1)
+    if(flag == 0)
     {
       if (fork() == 0)
       {
