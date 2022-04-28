@@ -3,7 +3,7 @@
 # Author: Ian Moon
 # Date: Apr 19, 2022
 #
-# COSC 3750, Homework 8
+# COSC 3750, Homework 8,9,10
 #
 # This is a Makefile designed to compile the wyscanner.c/h, 
 # simple.c, and wyshell.c

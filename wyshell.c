@@ -1,7 +1,7 @@
 /*************************************
- * wyshell.c
+ * wyshell.c part2
  * Author: Ian Moon
- * Date: 26 April 2022
+ * Date: 27 April 2022
  *
  * This file is the set up the shell
  * using functions from the wyscanner
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include "wyscanner.h"
 
 struct word
@@ -60,33 +61,39 @@ void addToList(char *input, Node *list)
   list->arg_list = tmp;
 }
 
+void com_free(Node *list)
+{
+  list->command = NULL;
+}
+
+void word_free(Node *list)
+{
+  list->arg_list = NULL;
+}
+
 int main()
 {
   Node *Head = NULL, *current = NULL;
   Word *commands = NULL;
-  int flag = 0;
-  /******************************
-   * Zach tried doing string compare
-   * with the &current->prev->command
-   * and it was segmentation faulting
-   * so I came up with this workaround.
-   ********************************/
-
   // The process loop
   while (1)
   {
     // flags to trigger specific events
-    int amOut = 0, amIn = 0, eol = 0;
+    int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 0;
+    char *args[100] = {lexeme, NULL};
+    int itt = 1;
+
     printf("$> ");
     // reads in from standard in
     prtn = fgets(buff, 4096, stdin);
+    // if ^d is entered it exits
     if (prtn == NULL)
     {
       printf("\n");
       return 0;
     }
     rtn = parse_line(buff);
-    // current = calloc(1, sizeof(Node));
+
     while (rtn != EOL)
     {
       switch (rtn)
@@ -103,24 +110,24 @@ int main()
         {
           flag = 1;
           current->command = strdup(lexeme);
-          printf(":--: %s\n", lexeme);
-          // printf("String duplicated");
+          // printf(":--: %s\n", lexeme);
         }
         else
         {
-          // if (strcmp(&current->prev->command, "|") == 0 || strcmp(&current->prev->command, "<") == 0
-          // || strcmp(&current->prev->command, ">") == 0 || strcmp(&current->prev->command, ";") == 0)
-          if(eol == 1) 
+          args[itt] = lexeme;
+          args[itt + 2] = args[itt + 1];
+          itt++;
+          if (eol == 1)
           {
             break;
           }
           addToList(lexeme, current);
-          printf(" --: %s\n", lexeme);
+          // printf(" --: %s\n", lexeme);
         }
         break;
       case REDIR_OUT:
         // if read out is used more than once
-        if(amOut == 1)
+        if (amOut == 1)
         {
           printf("Ambiguous output redirection\n");
           eol = 1;
@@ -129,63 +136,82 @@ int main()
         else
         {
           amOut = 1;
-          printf(">\n");
           break;
         }
       case REDIR_IN:
-        if(amOut == 1 || amIn == 1)
+        if (amOut == 1 || amIn == 1)
         {
           printf("Ambiguous output redirection\n");
           eol = 1;
           break;
         }
-        else{
-        printf("<\n");
-        amIn = 1;
-        break;
+        else
+        {
+          amIn = 1;
+          break;
         }
       case PIPE:
-        printf("|\n");
+        if(fork() == 0)
+        {
+          int stat_code = execvp(current->command, args);
+          if(stat_code == -1)
+          {
+            printf("Terminated Incorrectly\n");
+          }
+        }
         flag = 0;
         break;
       case SEMICOLON:
-        printf(";\n");
-        flag = 0;
+        if(fork() == 0)
+        {
+          int stat_code = execvp(current->command, args);
+          if(stat_code == -1)
+          {
+            printf("Terminated Incorrectly\n");
+          }
+        }
         break;
+      case ERROR_CHAR:
+        break;
+      case QUOTE_ERROR:
+        break;
+      case SYSTEM_ERROR:
+        return 0;
+      case AMP:
+        amp = 1;
       default:
         break;
       }
       rtn = parse_line(NULL);
-      if(eol == 1)
+      if (eol == 1)
       {
         break;
       }
     }
-    if(eol != 1)
+    if (eol != 1)
     {
-      printf("--: EOL\n");
+      break;
     }
-    /*
-        commands = calloc(1, sizeof(Word));
-        commands = current->arg_list;
-        while(commands != NULL){
-            commands = commands->prev;
-        }
-        while (commands != NULL)
-        {
-            printf("%s\n", commands->string);
-            commands = commands->next;
-        }
-        */
-    current = Head = NULL;
-    // current = Head;
-    // Node *tmp;
-    // while(current) {
-    //   free(current->command);
-    //   free_words(current->arg_list);
-    //   tmp=current;
-    //   current=current->next;
-    //   free(tmp);
-    // }
+    if(flag == 1)
+    {
+      if (fork() == 0)
+      {
+        int stat_code = execvp(current->command, args);
+          if(stat_code == -1)
+          {
+            printf("Terminated Incorrectly\n");
+          }
+      }
+    }
+    if(amp == 1)
+    {
+      wait(NULL);
+    }
+    current = Head;
+    Node *tmp;
+    com_free(current);
+    word_free(current);
+    tmp = current;
+    com_free(tmp);
   }
 }
