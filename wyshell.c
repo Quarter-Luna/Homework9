@@ -79,7 +79,7 @@ int main()
   while (1)
   {
     // flags to trigger specific events
-    int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 0;
+    int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 1;
     char *args[100] = {lexeme, NULL};
     int itt = 1;
 
@@ -159,9 +159,9 @@ int main()
             printf("Terminated Incorrectly\n");
           }
         }
-        if(amp == 1)
+        if(amp == 0)
         {
-          wait(NULL);
+          return 0;
         }
         flag = 1;
         break;
@@ -174,9 +174,9 @@ int main()
             printf("Terminated Incorrectly\n");
           }
         }
-        if(amp == 1)
+        if(amp == 0)
         {
-          wait(NULL);
+          return 0;
         }
         flag = 1;
         break;
@@ -187,7 +187,7 @@ int main()
       case SYSTEM_ERROR:
         return 0;
       case AMP:
-        amp = 1;
+        amp = 0;
       default:
         break;
       }
@@ -197,9 +197,9 @@ int main()
         break;
       }
     }
-    if (eol != 1)
+    if (amp == 0)
     {
-      break;
+      wait(NULL);
     }
     if(flag == 0)
     {
@@ -210,11 +210,11 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
+          if(amp == 1)
+          {
+            return 0;
+          }
       }
-    }
-    if(amp == 1)
-    {
-      wait(NULL);
     }
     current = Head;
     Node *tmp;
