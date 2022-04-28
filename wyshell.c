@@ -79,10 +79,10 @@ int main()
   while (1)
   {
     // flags to trigger specific events
-    int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 1;
+    int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 0;
     char *args[100] = {lexeme, NULL};
     int itt = 1;
-    printf("\n");
+
     printf("$> ");
     // reads in from standard in
     prtn = fgets(buff, 4096, stdin);
@@ -159,7 +159,7 @@ int main()
             printf("Terminated Incorrectly\n");
           }
         }
-        if(amp == 0)
+        if(amp == 1)
         {
           return 0;
         }
@@ -174,7 +174,7 @@ int main()
             printf("Terminated Incorrectly\n");
           }
         }
-        if(amp == 0)
+        if(amp == 1)
         {
           return 0;
         }
@@ -187,7 +187,7 @@ int main()
       case SYSTEM_ERROR:
         return 0;
       case AMP:
-        amp = 0;
+        amp = 1;
       default:
         break;
       }
@@ -197,7 +197,7 @@ int main()
         break;
       }
     }
-    if (amp == 0)
+    if (amp != 1)
     {
       wait(NULL);
     }
@@ -210,7 +210,7 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
-          if(amp == 1)
+          if(amp != 1)
           {
             return 0;
           }
