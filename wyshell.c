@@ -1,7 +1,7 @@
 /*************************************
  * wyshell.c part2
  * Author: Ian Moon
- * Date: 27 April 2022
+ * Date: 5 May 2022
  *
  * This file is the set up the shell
  * using functions from the wyscanner
@@ -80,7 +80,11 @@ int main()
   while (1)
   {
     // flags to trigger specific events
-    int flag = 0, amOut = 0, amIn = 0, eol = 0, amp = 0;
+    int flag = 0;
+    int amOut = 0;
+    int amIn = 0;
+    int eol = 0;
+    int amp = 0;
     char *args[100] = {lexeme, NULL};
     int itt = 1;
 
@@ -105,14 +109,12 @@ int main()
         {
           Head = calloc(1, sizeof(Node));
           current = Head;
-          // printf("head created");
         }
 
         if (current->command == NULL || flag == 1)
         {
           flag = 0;
           current->command = strdup(lexeme);
-          // printf(":--: %s\n", lexeme);
         }
         else
         {
@@ -124,7 +126,6 @@ int main()
             break;
           }
           addToList(lexeme, current);
-          // printf(" --: %s\n", lexeme);
         }
         break;
       case REDIR_OUT:
@@ -197,10 +198,12 @@ int main()
       default:
         break;
       }
+      /*
       if (amp != 1)
       {
         wait(NULL);
       }
+      */
       rtn = parse_line(NULL);
       if (eol == 1)
       {
@@ -211,16 +214,14 @@ int main()
     {
       if (fork() == 0)
       {
-        int stat_code = execvp(current->command, args);
-        if (stat_code == -1)
+        if(execvp(current->command, args) == -1)
         {
-          printf("Terminated Incorrectly\n");
+          printf("Terminated incorrectly\n");
         }
-        if (amp != 1)
+        else
         {
-          return 0;
+          exit(0);
         }
-        printf("\n");
       }
     }
     current = Head;
