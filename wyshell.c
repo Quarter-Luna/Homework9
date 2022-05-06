@@ -86,7 +86,7 @@ int main()
     int eol = 0;
     int amp = 0;
     char *args[100] = {lexeme, NULL};
-    int itt = 0;
+    int itt = 1;
 
     printf("$> ");
     // reads in from standard in
@@ -119,11 +119,9 @@ int main()
         }
         else
         {
-          /*
-          args[itt] = lexeme;
-          args[itt + 2] = args[itt + 1];
+          args[itt + 1] = args[itt];
+          args[itt] = strdup(lexeme);
           itt++;
-          */
           if (eol == 1)
           {
             break;
