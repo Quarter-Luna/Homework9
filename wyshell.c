@@ -220,7 +220,7 @@ int main()
     if (flag == 0)
     {
       int a = 0;
-      char* argues[100] = {};
+      char* argues[100] = {lexeme, NULL};
       while(current->arg_list->next != NULL)
       {
         argues[a] = current->arg_list->string;
