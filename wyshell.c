@@ -118,9 +118,11 @@ int main()
         }
         else
         {
+          /*
           args[itt] = lexeme;
           args[itt + 2] = args[itt + 1];
           itt++;
+          */
           if (eol == 1)
           {
             break;
@@ -217,6 +219,14 @@ int main()
     }
     if (flag == 0)
     {
+      int a = 0;
+      char* argues[100] = {};
+      while(current->arg_list->next != NULL)
+      {
+        argues[a] = current->arg_list->string;
+        a++;
+      }
+      args[a] = NULL;
       if (fork() == 0)
       {
         if (execvp(current->command, args) == -1)
