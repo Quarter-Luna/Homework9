@@ -75,7 +75,7 @@ void word_free(Node *list)
 int main()
 {
   Node *Head = NULL, *current = NULL;
-  Word *commands = NULL;
+  Word *command = NULL;
   // The process loop
   while (1)
   {
