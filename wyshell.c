@@ -165,7 +165,10 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
-          exit(0);
+          else
+          {
+            exit(0);
+          }
         }
         if (amp != 1)
         {
