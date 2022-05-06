@@ -229,7 +229,7 @@ int main()
       args[a] = NULL;
       if (fork() == 0)
       {
-        if (execvp(current->command, args) == -1)
+        if (execvp(current->command, argues) == -1)
         {
           printf("Terminated incorrectly\n");
         }
