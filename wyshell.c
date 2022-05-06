@@ -163,12 +163,13 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
-          if (amp == 1)
-          {
-            return 0;
-          }
-          printf("\n");
+          exit(0);
         }
+        if (amp != 1)
+        {
+          wait(NULL);
+        }
+        printf("\n");
         flag = 1;
         break;
       case SEMICOLON:
@@ -179,12 +180,16 @@ int main()
           {
             printf("Terminated Incorrectly\n");
           }
-          if (amp == 1)
+          else
           {
-            return 0;
+            exit(0);
           }
-          printf("\n");
         }
+        if (amp != 1)
+        {
+          wait(NULL);
+        }
+          printf("\n");
         flag = 1;
         break;
       case ERROR_CHAR:
@@ -214,7 +219,7 @@ int main()
     {
       if (fork() == 0)
       {
-        if(execvp(current->command, args) == -1)
+        if (execvp(current->command, args) == -1)
         {
           printf("Terminated incorrectly\n");
         }
@@ -223,6 +228,10 @@ int main()
           exit(0);
         }
       }
+    }
+    if(amp != 1)
+    {
+      wait(NULL);
     }
     current = Head;
     Node *tmp;
