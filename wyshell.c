@@ -115,7 +115,8 @@ int main()
         {
           flag = 0;
           current->command = strdup(lexeme);
-          // addToList(lexeme, current);
+          addToList(lexeme, current);
+          args[0] = strdup(lexeme);
         }
         else
         {
