@@ -94,6 +94,7 @@ int main()
       return 0;
     }
     rtn = parse_line(buff);
+    printf('\n');
 
     while (rtn != EOL)
     {
