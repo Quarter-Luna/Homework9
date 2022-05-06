@@ -75,7 +75,7 @@ void word_free(Node *list)
 int main()
 {
   Node *Head = NULL, *current = NULL;
-  Word *command = NULL;
+  Word *commands = NULL;
   // The process loop
   while (1)
   {
@@ -86,7 +86,7 @@ int main()
     int eol = 0;
     int amp = 0;
     char *args[100] = {lexeme, NULL};
-    int itt = 1;
+    int itt = 0;
 
     printf("$> ");
     // reads in from standard in
